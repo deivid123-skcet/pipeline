@@ -6,7 +6,7 @@ pipeline{
 	stages {
 		stage('Build') {
 			steps {
-				sh 'docker build -t 142102/siteteste:1.0 .'
+				sh 'docker build -t 142102/siteteste:latest -t 142102/siteteste:1.1 .'
 			}
 		}
 		stage('Login') {
@@ -18,6 +18,16 @@ pipeline{
 		stage('Push') {
 			steps {
 				sh 'docker push 142102/siteteste:1.0'
+			}
+		}
+		stage('Para o Serviço antigo') {
+			steps {
+				sh 'docker service rm  siteteste'
+			}
+		}
+				stage('Cria o serviço novo') {
+			steps {
+				sh 'docker service create --name siteteste --hostname siteteste -p 3000:3000 142102/siteteste:latest'
 			}
 		}
 	}
