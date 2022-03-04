@@ -10,6 +10,7 @@ COPY . .
 
 FROM alpine:latest  
 RUN apk --no-cache add ca-certificates
+RUN apk add --no-cache nodejs
 WORKDIR /app
 COPY --from=0 /app/ ./
 
